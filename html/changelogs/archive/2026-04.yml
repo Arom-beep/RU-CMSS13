@@ -46,19 +46,17 @@
   - maptweak: Space tile above CIC fixed
   - maptweak: 3rd OB warhead returned
   - qol: little things fixed or replaced on Almayer
+  Jesters-Ballad:
+  - rscadd: Added Three Patches to Civilian Gear
   Lentye:
   - balance: disabled active queen pull
   The-Last-Shadow:
   - rscadd: Vote for hijack skip
-  Jesters-Ballad:
-  - rscadd: Added Three Patches to Civilian Gear
 2026-04-16:
   JackieEstegado:
   - bugfix: Organ healing chemicals no longer produce messages falsely indicating
       organ damage being taken.
 2026-04-18:
-  Rocky0558:
-  - code_imp: reverted queen pull
   DangerRevolution:
   - maptweak: Removed some accessible OOB areas on Chance's Claim that could be tunneled
       into / cored etc
@@ -78,6 +76,8 @@
   - balance: Scouts HV bullets now add a small "MD" like blip to every non-faction
       you shoot, blipping continously and revealing their position like an MD would,
       for every marine thats close to the xenomorph for 10 seconds.
+  Rocky0558:
+  - code_imp: reverted queen pull
   Unknownity:
   - bugfix: Desert Moon temple walls are indestructible again.
 2026-04-21:
@@ -154,3 +154,8 @@
   - maptweak: 'Added two new areas to Trijent Dam that can be powered with an APC:
       "Medical Valley Elevator Landing" and "Wilderness Valley Elevator Landing"'
   - spellcheck: Changed "curtesy" to "courtesy" in the elevator control panel
+2026-04-28:
+  Ascaron5:
+  - rscadd: Readded leadership text
+  Rocky0558:
+  - code_imp: upstream, yay
