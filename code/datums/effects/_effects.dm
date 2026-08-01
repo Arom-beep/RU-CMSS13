@@ -20,13 +20,23 @@
 	FLAGS FOR EFFECTS
 	They determine when an effect should be processed or deleted
 */
+/* //RUCM EDIT START
 #define DEL_ON_DEATH 1 //Delete the effect when something dies
 #define DEL_ON_LIVING 2 //Delete the effect when something is alive
 #define INF_DURATION 4 //An effect that lasts forever
 #define NO_PROCESS_ON_DEATH 8 //Don't process while the mob is dead
 #define DEL_ON_UNDEFIBBABLE 16 //Delete the effect when human mob is undefibbable
+*/
+#define DEL_ON_DEATH (1<<0) //Delete the effect when something dies
+#define DEL_ON_LIVING (1<<1) //Delete the effect when something is alive
+#define INF_DURATION (1<<2) //An effect that lasts forever
+#define NO_PROCESS_ON_DEATH (1<<3) //Don't process while the mob is dead
+#define DEL_ON_UNDEFIBBABLE (1<<4) //Delete the effect when human mob is undefibbable
+#define EFFECT_NO_PROCESS (1<<5) //! Do not process this effect at all
+//RUCM CODE END
 
 /datum/effects
+/* RUCM EDIT START
 	var/effect_name = "standard" //Name of the effect
 	var/duration = 0 //How long it lasts
 	var/flags = DEL_ON_DEATH //Flags for the effect
@@ -37,12 +47,29 @@
 	var/mob_icon_state_path = null //The icon_state path for mobs
 	var/datum/cause_data/cause_data = null //Cause data for statistics
 	var/show_baloon_alert = FALSE //Used to limit balloon alerts
+*/
+	var/effect_name = "standard" // Name of the effect
+	var/duration = 0 //How long it lasts
+	var/flags = DEL_ON_DEATH //Flags for the effect
+	var/atom/affected_atom = null //The affected atom
+	var/def_zone = "chest" //The area affected if its a mob
+	var/icon_path = null //The icon path if the effect should apply an overlay to things
+	var/obj_icon_state_path = null //The icon_state path for objs
+	var/mob_icon_state_path = null //The icon_state path for mobs
+	var/datum/cause_data/cause_data = null //Cause data for statistics
+	var/show_baloon_alert = FALSE //Used to limit balloon alerts
+//RUCM CODE END
 
 /datum/effects/New(atom/thing, mob/from = null, last_dmg_source = null, zone = "chest")
 	if(!validate_atom(thing) || QDELETED(thing))
 		qdel(src)
 		return
+/* //RUCM EDIT START
 	START_PROCESSING(SSoldeffects, src)
+*/
+	if(flags & EFFECT_NO_PROCESS)
+		START_PROCESSING(SSeffects, src)
+//RUCM CODE END
 
 	affected_atom = thing
 	LAZYADD(affected_atom.effects_list, src)

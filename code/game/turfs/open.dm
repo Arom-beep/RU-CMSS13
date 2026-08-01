@@ -728,6 +728,7 @@
 	supports_surgery = FALSE
 	minimap_color = MINIMAP_WATER
 	is_weedable = NOT_WEEDABLE
+	layer = UNDER_TURF_LAYER -0.03 //RUCM CODE START/END
 
 /turf/open/gm/river/Initialize(mapload, ...)
 	. = ..()
@@ -744,14 +745,19 @@
 	if(covered)
 		name = covered_name
 		overlays += image("icon"=src.cover_icon,"icon_state"=cover_icon_state,"layer"=CATWALK_LAYER,"dir" = dir)
+/* //RUCM EDIT START
 	else
 		name = default_name
 		overlays += image("icon"=src.icon,"icon_state"=icon_overlay,"layer"=ABOVE_MOB_LAYER,"dir" = dir)
+*/ //RUCM EDIT END
 
 /turf/open/gm/river/Entered(atom/movable/AM)
 	..()
 
 	SEND_SIGNAL(AM, COMSIG_MOVABLE_ENTERED_RIVER, src, covered)
+
+	if(!covered && ishuman(AM)) //RUCM CODE START
+		AM.AddComponent(/datum/component/turf_overlay_effect, src.type, -8) //RUCM CODE END
 
 	if(!iscarbon(AM) || AM.throwing)
 		return
@@ -884,6 +890,13 @@
 	baseturfs = /turf/open/gm/coast
 	supports_surgery = FALSE
 	is_weedable = NOT_WEEDABLE
+	layer = UNDER_TURF_LAYER -0.03 //RUCM CODE START
+
+/turf/open/gm/coast/Entered(atom/movable/A)
+	. = ..()
+	if(ishuman(A))
+		A.AddComponent(/datum/component/turf_overlay_effect, src.type, -2)
+//RUCM CODE END
 
 /turf/open/gm/coast/north
 
@@ -939,11 +952,19 @@
 	minimap_color = MINIMAP_WATER
 	is_groundmap_turf = FALSE // Not real ground
 	fishing_allowed = TRUE
+	layer = UNDER_TURF_LAYER -0.03 //RUCM CODE START/END
 
 
 /turf/open/gm/riverdeep/Initialize(mapload, ...)
 	. = ..()
 	overlays += image("icon"='icons/turf/ground_map.dmi',"icon_state"="water","layer"=MOB_LAYER+0.1)
+
+//RUCM CODE START
+/turf/open/gm/riverdeep/Entered(atom/movable/A)
+	. = ..()
+	if(ishuman(A))
+		A.AddComponent(/datum/component/turf_overlay_effect, src.type, -16)
+//RUCM CODE END
 
 /turf/open/gm/river/no_overlay
 	no_overlay = TRUE

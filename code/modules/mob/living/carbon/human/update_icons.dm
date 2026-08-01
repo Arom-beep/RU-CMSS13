@@ -81,6 +81,12 @@ There are several things that need to be remembered:
 
 	SEND_SIGNAL(src, COMSIG_HUMAN_OVERLAY_APPLIED, cache_index, images)
 	overlays += images
+//RUCM CODE START
+	for(var/datum/effects/turf_overlay_effect/hooplah in effects_list)
+		update_effects()
+		var/turf/gotten_turf = get_turf(src)
+		gotten_turf.Entered(src, loc)
+//RUCM CODE END
 
 /mob/living/carbon/human/remove_overlay(cache_index)
 	if(cache_index > length(overlays_standing))
@@ -784,19 +790,29 @@ Applied by gun suicide and high impact bullet executions, removed by rejuvenate,
 	overlays_standing[FIRE_LAYER] = I
 	apply_overlay(FIRE_LAYER)
 
-
+/* //RUCM EDIT START
 /mob/living/carbon/human/proc/update_effects()
+*/
+/mob/living/carbon/human/proc/update_effects(layer_override = FALSE) //RUCM EDIT END
 	remove_overlay(EFFECTS_LAYER)
 
-	var/image/I
+	var/mutable_appearance/I //RUCM EDIT var/image/I
 	for(var/datum/effects/E in effects_list)
 		if(E.icon_path && E.mob_icon_state_path)
 			if(!I)
-				I = image("icon" = E.icon_path, "icon_state" = E.mob_icon_state_path, "layer"= -EFFECTS_LAYER)
+				I = mutable_appearance("icon" = E.icon_path, "icon_state" = E.mob_icon_state_path, "layer"= -EFFECTS_LAYER) //RUCM EDIT I = image("icon" = E.icon_path, "icon_state" = E.mob_icon_state_path, "layer"= -EFFECTS_LAYER)
 			else
-				I.overlays += image("icon" = E.icon_path, "icon_state" = E.mob_icon_state_path, "layer"= -EFFECTS_LAYER)
+				I.overlays += mutable_appearance("icon" = E.icon_path, "icon_state" = E.mob_icon_state_path, "layer"= -EFFECTS_LAYER) //RUCM EDIT I.overlays += image("icon" = E.icon_path, "icon_state" = E.mob_icon_state_path, "layer"= -EFFECTS_LAYER)
 	if(!I)
 		return
+	if(body_position == LYING_DOWN) //RUCM CODE START
+		switch(transform.b)
+			if(1) //uh I have no idea how matricies work
+				I.transform = I.transform.Turn(270)
+				I.transform = I.transform.Translate(-4, 0)
+			if(-1) //but I noticed these values were unique between the laying directions :0)
+				I.transform = I.transform.Turn(90)
+				I.transform = I.transform.Translate(4, 0) //RUCM CODE END
 	overlays_standing[EFFECTS_LAYER] = I
 	apply_overlay(EFFECTS_LAYER)
 
