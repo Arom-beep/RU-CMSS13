@@ -31,7 +31,9 @@
 	tackle_min = 4
 	tackle_max = 5
 
-	aura_strength = 1
+	organ_type = null
+
+	aura_strength = XENO_PHERO_STRENGTH_WEAK
 
 	minimap_icon = "lesser_drone"
 
@@ -48,7 +50,6 @@
 	icon_size = 48
 	icon_state = "Lesser Drone Walking"
 	xenonid_pixel_x = -9
-	plasma_types = list(PLASMA_PURPLE)
 	tier = 0
 //RUCM START
 	layer = ABOVE_LYING_MOB_LAYER
